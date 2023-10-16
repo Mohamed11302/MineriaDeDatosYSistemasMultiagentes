@@ -25,7 +25,7 @@ def main():
                 imprimirCSV(dataTotal)
 
 def anterior(url,dataTotal):
-    for i in range(7):
+    for i in range(9):
         r1 = requests.get(url)
         soup = bs(r1.content, "html.parser")
         ano=soup.find(class_ = "table tabledat table-striped table-condensed table-hover")
@@ -38,7 +38,7 @@ def anterior(url,dataTotal):
     return dataTotal
 
 def imprimirCSV(data):
-    with open('./DataSets/gasDie_prices.csv', 'w', newline='') as csvfile:
+    with open('../DataSets/gasolineDiesel_prices.csv', 'w', newline='') as csvfile:
         csv_writer = csv.writer(csvfile,delimiter=';')
         anos=[""]
         gasDie=[""]
