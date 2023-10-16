@@ -18,7 +18,6 @@ def main():
         for column in columns:
             country= column.text.strip()
             if '[+]' in country:
-                print(country)
                 href=column.find("a")["href"]
                 url1=url+href[44:]
                 dataTotal.append(anterior(url1,[country]))
