@@ -46,12 +46,14 @@ def get_data(table):
         
 
 def main():
-    table = read_table("data.html")
+    table = read_table("../HTML/model_per_year.html")
     header = get_headers(table)
 
-    with open("data.csv", "w") as f:
+    with open("../DataSets/[RAW]model_per_year.csv", "w") as f:
         f.write(";".join(header) + "\n")
         f.writelines([record + "\n" for record in get_data(table)])
 
-main()
+if __name__ == "__main__":
+    print("Executing Scraping_Model_Per_Year.py")
+    main()
 
