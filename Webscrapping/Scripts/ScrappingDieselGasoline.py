@@ -40,7 +40,7 @@ def imprimirCSV(data):
     with open('../DataSets/gasolineDiesel_prices.csv', 'w', newline='') as csvfile:
         csv_writer = csv.writer(csvfile,delimiter=';')
         anos=[""]
-        gasDie=[""]
+        gasDie=["País"]
         for i in range(9):
             anos.append(2023-i)
             anos.append("")
