@@ -2,5 +2,7 @@
 
 _WebScraping_
 Es importante para poder ejecutar la extracción de datos de esta rama lo siguiente:
+
   1.- Instalar los requirements
+  
   2.- Para descargar datos de kaggle, además de su api par apython, se necesitará descargar los creedenciales de la cuenta en json y ponerlos en la carpeta que se indica en la [documentación oficial](https://github.com/Kaggle/kaggle-api#api-credentials)
