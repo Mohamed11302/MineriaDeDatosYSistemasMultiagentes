@@ -8,11 +8,13 @@ def main():
     data_labels = []
     soup = BeautifulSoup(contenido, "html.parser")
     classes = "has-tooltip-bottom flex flex-nowrap items-center whitespace-nowrap font-semibold text-black first-of-type:self-start"
+    classes2 = "has-tooltip-bottom flex flex-nowrap items-center whitespace-nowrap font-semibold text-black first-of-type:self-start pr-3"
     elements = soup.find_all(class_=classes)
+    element_2 = soup.find_all(class_=classes2)
+    elements.append(element_2[0])
     for element in elements:
         data_labels.append(element.get_text())
     data_matrix.append(data_labels)
-
 
     class_name = "odd:bg-white even:bg-gray-100 null"
     rows = soup.find_all('tr', class_=class_name)
