@@ -1,0 +1,8 @@
+bleach
+certifi
+python-dateutil
+python-slugify
+requests
+six>=1.10
+tqdm
+urllib3
