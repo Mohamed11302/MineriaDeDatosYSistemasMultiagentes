@@ -52,5 +52,5 @@ def imprimirCSV(data):
             csv_writer.writerows([i])
 
 if __name__ == '__main__':
-    print("Executing Scraping_Diesel_Gasoline.py")
+    print("Executing [Scraping]Gasoline_Diesel.py")
     main()

@@ -31,12 +31,12 @@ def main():
         data_matrix.append(row_data)
 
     
-    ruta_destino = 'DataSets/[RAW]level_of_studies.csv'
+    ruta_destino = 'DataSets/[RAW]Level_Of_Studies.csv'
     with open(ruta_destino, 'w', newline='') as file:
         writer = csv.writer(file)
         for row in data_matrix:
             writer.writerow(row)
 
 if __name__ == '__main__':
-    print("Executing Scraping_Estudios.py")
+    print("Executing [Scraping]Level_Of_Studies.py")
     main()

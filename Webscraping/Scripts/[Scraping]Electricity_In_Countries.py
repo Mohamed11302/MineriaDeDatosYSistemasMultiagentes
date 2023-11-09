@@ -2,7 +2,7 @@ import requests
 import io
 import zipfile
 import os
-
+import shutil
 
 def main():
 
@@ -28,6 +28,13 @@ def main():
                 with open(os.path.join(csv_folder, file.filename), "wb") as csv_file:
                     csv_file.write(csv_content)
 
+    #Quitar los archivos que no utilizaremos 
+    destino = 'DataSets/[RAW]electricity_in_all_countries.csv'
+    if os.path.exists(destino):
+        os.remove(destino)
+    os.rename(csv_folder +str("/european_wholesale_electricity_price_data_hourly/all_countries.csv"), destino)
+    shutil.rmtree(csv_folder)
+    
 if __name__ == "__main__":
-    print("Executing Scraping_electricity_in_countries.py")
+    print("Executing [Scraping]Electricity_In_Countries.py")
     main()

@@ -54,6 +54,6 @@ def main():
         f.writelines([record + "\n" for record in get_data(table)])
 
 if __name__ == "__main__":
-    print("Executing Scraping_Model_Per_Year.py")
+    print("Executing [Scraping]Model_Per_Year.py")
     main()
 
