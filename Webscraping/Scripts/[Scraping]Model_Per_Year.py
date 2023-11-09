@@ -46,10 +46,10 @@ def get_data(table):
         
 
 def main():
-    table = read_table("../HTML/model_per_year.html")
+    table = read_table("Webscraping/HTML/model_per_year.html")
     header = get_headers(table)
 
-    with open("../DataSets/[RAW]model_per_year.csv", "w") as f:
+    with open("DataSets/[RAW]model_per_year.csv", "w") as f:
         f.write(";".join(header) + "\n")
         f.writelines([record + "\n" for record in get_data(table)])
 

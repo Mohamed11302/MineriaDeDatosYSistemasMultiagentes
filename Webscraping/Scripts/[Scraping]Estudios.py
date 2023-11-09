@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import csv
 
 def main():
-    with open('../HTML/Nivel de Estudios/Most Educated Countries 2023.html', 'rb') as archivo:
+    with open('Webscraping/HTML/Nivel de Estudios/Most Educated Countries 2023.html', 'rb') as archivo:
         contenido = archivo.read()
     data_matrix = []
     data_labels = []
@@ -31,7 +31,7 @@ def main():
         data_matrix.append(row_data)
 
     
-    ruta_destino = '../DataSets/[RAW]level_of_studies.csv'
+    ruta_destino = 'DataSets/[RAW]level_of_studies.csv'
     with open(ruta_destino, 'w', newline='') as file:
         writer = csv.writer(file)
         for row in data_matrix:

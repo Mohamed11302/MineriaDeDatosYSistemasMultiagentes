@@ -143,8 +143,8 @@ def conecta_BD(dataframe, nombre_tabla):
 
 if __name__ == '__main__':
     print("Executing Scraping_PIB_per_capita.py")
-    nombre_archivo_excel = "../DataSets/pib_per_capita.xls"
-    nombre_archivo_csv = "../DataSets/[RAW]pib_per_capita.csv"
+    nombre_archivo_excel = "DataSets/[RAW]pib_per_capita.xls"
+    nombre_archivo_csv = "DataSets/[RAW]pib_per_capita.csv"
     datos_raw = obtener_datos(nombre_archivo_excel, nombre_archivo_csv)
     
     '''dataframe_desde_2000 = filtrar_datos(nombre_archivo_csv)

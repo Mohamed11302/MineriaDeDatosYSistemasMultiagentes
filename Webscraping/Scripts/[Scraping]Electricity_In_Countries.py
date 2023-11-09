@@ -8,7 +8,7 @@ def main():
 
     url = "https://ember-climate.org/app/uploads/2022/09/european_wholesale_electricity_price_data_hourly-2.zip"
 
-    csv_folder = "../DataSets/[RAW]electricity_in_countries_csv"
+    csv_folder = "DataSets/[RAW]electricity_in_countries_csv"
     os.makedirs(csv_folder, exist_ok=True)
 
     r = requests.get(url)

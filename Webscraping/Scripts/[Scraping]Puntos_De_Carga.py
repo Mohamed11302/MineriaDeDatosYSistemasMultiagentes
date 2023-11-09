@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 def main():
-    with open("../HTML/Puntos De Carga/Global EV Data Explorer – Data Tools - IEA.html", 'r', encoding='utf-8') as archivo:
+    with open("Webscraping/HTML/Puntos De Carga/Global EV Data Explorer – Data Tools - IEA.html", 'r', encoding='utf-8') as archivo:
         contenido = archivo.read()
 
     soup = BeautifulSoup(contenido, "html.parser")
@@ -11,7 +11,7 @@ def main():
     response = requests.get(enlace_descarga)
 
     if response.status_code == 200:
-        ruta_destino = '../DataSets/[RAW]puntos_de_carga.csv'
+        ruta_destino = 'DataSets/[RAW]puntos_de_carga.csv'
         with open(ruta_destino, 'wb') as archivo_csv:
             archivo_csv.write(response.content)
 

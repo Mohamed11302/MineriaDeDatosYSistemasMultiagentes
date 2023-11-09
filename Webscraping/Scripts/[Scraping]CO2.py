@@ -10,10 +10,10 @@ def main():
 
 
 def imprimirxlsx(data):
-    with open('../DataSets/[RAW]data_CO2.xlsx', 'wb') as xlsx:
+    with open('DataSets/[RAW]data_CO2.xlsx', 'wb') as xlsx:
         xlsx.write(data)
-    df = pd.read_excel('../DataSets/[RAW]data_CO2.xlsx', sheet_name="fossil_CO2_totals_by_country")
-    df.to_csv("../DataSets/[RAW]data_CO2.csv", index=False) 
+    df = pd.read_excel('DataSets/[RAW]data_CO2.xlsx', sheet_name="fossil_CO2_totals_by_country")
+    df.to_csv("DataSets/[RAW]data_CO2.csv", index=False) 
     
 
 if __name__ == '__main__':
