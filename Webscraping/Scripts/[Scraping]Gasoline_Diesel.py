@@ -37,16 +37,12 @@ def anterior(url,dataTotal):
     return dataTotal
 
 def imprimirCSV(data):
-    with open('DataSets/[RAW]gasoline_Diesel_prices.csv', 'w', newline='') as csvfile:
-        csv_writer = csv.writer(csvfile,delimiter=';')
-        anos=[""]
+    with open('DataSets/[RAW]gasoline_Diesel_prices.csv', 'w', newline='',encoding='utf-16') as csvfile:
+        csv_writer = csv.writer(csvfile)
         gasDie=["País"]
         for i in range(9):
-            anos.append(2023-i)
-            anos.append("")
-            gasDie.append("Gasolina")
-            gasDie.append("Diesel")
-        csv_writer.writerow(anos)
+            gasDie.append("Gasolina_"+str(2023-i))
+            gasDie.append("Diesel_"+str(2023-i))
         csv_writer.writerow(gasDie)
         for i in data:
             csv_writer.writerows([i])
