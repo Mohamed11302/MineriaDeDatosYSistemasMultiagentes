@@ -11,6 +11,12 @@ def main():
 
     dataset_name = 'geoffnel/evs-one-electric-vehicle-dataset'
     kaggle.api.dataset_download_files(dataset_name, path='DataSets', unzip=True)
+    
+    try:
+        os.remove("DataSets/[RAW]electric_car_data_clean.csv")
+    except Exception as e:
+        print(e)
+
     os.rename("DataSets/ElectricCarData_Clean.csv", "DataSets/[RAW]electric_car_data_clean.csv")
     os.remove("DataSets/ElectricCarData_Norm.csv")
 
