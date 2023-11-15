@@ -1,6 +1,13 @@
 import pandas as pd
 from sqlalchemy import create_engine, URL
 import warnings
+import importlib
+'''
+import sys
+sys.path.append("Preprocesado de Datos/Acceso BBDD")
+print(sys.path)
+MetodosBBDD = importlib.import_module('Preprocesado de Datos/Acceso BBDD/MetodosBBDD')
+'''
 
 warnings.filterwarnings('ignore')
 def DatosDataSets():

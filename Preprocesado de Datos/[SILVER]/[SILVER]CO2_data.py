@@ -15,5 +15,3 @@ def limpiar_dataframe():
    dataframe = dataframe.drop(dataframe.iloc[:,3:48].columns, axis=1)
    
    return dataframe
-
-dataframe = limpiar_dataframe()

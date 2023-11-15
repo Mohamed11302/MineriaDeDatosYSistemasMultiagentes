@@ -28,5 +28,3 @@ def limpiar_dataframe():
     dataframe_limpio = elimina_nulos(dataframe_nulos_introducidos)
     return pd.concat([columna_paises, dataframe_limpio.iloc[:,list(range(5, dataframe_limpio.shape[1]-5))]], axis=1)
 
-dataframe = limpiar_dataframe()
-print(dataframe)

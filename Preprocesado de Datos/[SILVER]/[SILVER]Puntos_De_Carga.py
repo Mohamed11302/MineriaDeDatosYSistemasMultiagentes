@@ -42,5 +42,3 @@ def limpiar_dataframe():
 
     return dataframe
     
-dataframe = limpiar_dataframe()
-print(dataframe.head())

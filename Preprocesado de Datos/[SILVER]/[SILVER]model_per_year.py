@@ -39,5 +39,3 @@ def limpiar_dataframe():
 
      # Sustituye los valores nulos por 0
      df.fillna(0, inplace=True)
-
-dataframe = limpiar_dataframe()
