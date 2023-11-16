@@ -1,14 +1,14 @@
 import pandas as pd
-from sqlalchemy import create_engine, URL
 import warnings
-import importlib
-'''
+import os
 import sys
-sys.path.append("Preprocesado de Datos/Acceso BBDD")
-print(sys.path)
-MetodosBBDD = importlib.import_module('Preprocesado de Datos/Acceso BBDD/MetodosBBDD')
-'''
 
+ruta_actual = os.path.dirname(os.path.abspath(sys.argv[0]))
+directorio_superior = os.path.dirname(ruta_actual)
+abuelo_directorio = os.path.dirname(directorio_superior)
+sys.path.append(abuelo_directorio)
+
+from Preprocesado_de_Datos.Acceso_BBDD.MetodosBBDD import *
 warnings.filterwarnings('ignore')
 def DatosDataSets():
     db_dict = {
@@ -23,30 +23,8 @@ def DatosDataSets():
            }
     return db_dict
 
-def DatosBBDD():
-    db_url = URL.create(
-        "mysql+pymysql",
-        username="minero",
-        password="MineriaMultiagentes2324*",
-        host="db.programadormanchego.es",
-        port=3306,
-        database="raw",
-    )
-    return db_url
 
-def ConectarseABBDD(local):
-    db_url = DatosBBDD()
-    if local:
-        connect_args = {"ssl": {"fake_flag_to_enable_tls": True}}
-        conn = create_engine(db_url, connect_args=connect_args)
-    else:
-        ssl_args = {"ssl_ca": "Preprocesado de Datos/Acceso BBDD/ca.pem", "ssl_verify_identity": False, "ssl_verify_cert": True}
-        conn = create_engine(db_url, connect_args=ssl_args)
-    conn.connect()
-    return conn
-
-def SubirArchivosABBDD(local):
-    conn = ConectarseABBDD(local)
+def SubirArchivosABBDD():
     datasets = DatosDataSets()
     for nombre_dataset, path in datasets.items():
         print("UPLOADING DATASET: " + str(nombre_dataset))
@@ -59,8 +37,8 @@ def SubirArchivosABBDD(local):
         else:
             df = pd.read_csv(path)            
         df.columns = df.columns.str.replace(' ', '_').str.replace('[^a-zA-Z0-9_]', '')
-        df.to_sql(nombre_dataset, conn, if_exists="replace", index=False)
+        subir_dataframe_sql(df, RAW, nombre_dataset)
 
 
 
-SubirArchivosABBDD(local = False)
+SubirArchivosABBDD()

@@ -1,9 +1,13 @@
-import importlib
 import pandas as pd
-import os
 import random
+import os
+import sys
+ruta_actual = os.path.dirname(os.path.abspath(sys.argv[0]))
+directorio_superior = os.path.dirname(ruta_actual)
+abuelo_directorio = os.path.dirname(directorio_superior)
+sys.path.append(abuelo_directorio)
+from Preprocesado_de_Datos.Acceso_BBDD.MetodosBBDD import *
 
-SILVER_BBDD = importlib.import_module('[SILVER]BBDD')
 
 def completar_anios_con_tendencia(df):
     # Generar una lista de años desde 2015 hasta el primer año con registros
@@ -33,7 +37,7 @@ def completar_anios_con_tendencia(df):
     return result_sorted
 
 def limpiar_dataframe():
-    dataframe = SILVER_BBDD.obtener_dataframe('puntos_de_carga')
+    dataframe = obtener_dataframe_sql('puntos_de_carga', RAW)
     dataframe = dataframe[dataframe['value'] == dataframe['value'].astype(int)]
     dataframe['value'] = dataframe['value'].astype(int)
     dataframe = dataframe.groupby(['region', 'year'], as_index=False)['value'].sum()

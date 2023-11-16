@@ -1,8 +1,14 @@
 
 import importlib
 import pandas as pd
+import os
+import sys
+ruta_actual = os.path.dirname(os.path.abspath(sys.argv[0]))
+directorio_superior = os.path.dirname(ruta_actual)
+abuelo_directorio = os.path.dirname(directorio_superior)
+sys.path.append(abuelo_directorio)
+from Preprocesado_de_Datos.Acceso_BBDD.MetodosBBDD import *
 
-SILVER_BBDD = importlib.import_module('[SILVER]BBDD')
 
 def filtrar_datos(dataframe_completo):
     dataframe_desde_2000 = dataframe_completo.iloc[1:dataframe_completo.shape[0]-2,[0] + list(range(31, dataframe_completo.shape[1]))]
@@ -21,7 +27,7 @@ def elimina_nulos(dataframe):
 
 def limpiar_dataframe():
 
-    dataframe = SILVER_BBDD.obtener_dataframe('pib_per_capita')
+    dataframe = obtener_dataframe_sql('pib_per_capita', RAW)
     dataframe_desde_2000 = filtrar_datos(dataframe)
     columna_paises = dataframe_desde_2000.iloc[:,0]
     dataframe_nulos_introducidos = anula_valores_no_numericos(dataframe_desde_2000.iloc[:,1:])
