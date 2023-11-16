@@ -36,13 +36,16 @@ def completar_anios_con_tendencia(df):
     result_sorted = result_concat.sort_values(by=["region", "year"])
     return result_sorted
 
+def quitar_paises_sin_valores(df):
+    df_filtrado = df.groupby('region').filter(lambda x: x['year'].min() <= 2015)
+    return df_filtrado
+
 def limpiar_dataframe():
     dataframe = obtener_dataframe_sql('puntos_de_carga', RAW)
     dataframe = dataframe[dataframe['value'] == dataframe['value'].astype(int)]
     dataframe['value'] = dataframe['value'].astype(int)
     dataframe = dataframe.groupby(['region', 'year'], as_index=False)['value'].sum()
     dataframe = dataframe[dataframe['year'] >= 2015]
-    dataframe = completar_anios_con_tendencia(dataframe)
-
+    #dataframe = completar_anios_con_tendencia(dataframe)
+    dataframe = quitar_paises_sin_valores(dataframe)
     return dataframe
-    
