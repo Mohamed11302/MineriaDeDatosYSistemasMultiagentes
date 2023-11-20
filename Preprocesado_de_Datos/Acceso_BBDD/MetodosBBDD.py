@@ -1,5 +1,6 @@
 import pandas as pd
 from sqlalchemy import create_engine, URL
+from Preprocesado_de_Datos.Acceso_BBDD.password import *
 RAW = 'raw'
 SILVER = 'silver'
 GOLD = 'gold'
@@ -32,7 +33,7 @@ def DatosBBDD(schema_name:str):
     db_url = URL.create(
         "mysql+pymysql",
         username="minero",
-        password="MineriaMultiagentes2324*",
+        password=PasswordBBDD(),
         host="db.programadormanchego.es",
         port=3306,
         database=schema_name,

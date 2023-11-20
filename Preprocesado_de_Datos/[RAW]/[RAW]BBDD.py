@@ -21,6 +21,9 @@ def DatosDataSets():
            "pib_per_capita":"DataSets/[RAW]pib_per_capita.csv",
            "puntos_de_carga":"DataSets/[RAW]puntos_de_carga.csv"
            }
+    db_dict = {
+         'prueba': "DataSets/[RAW]CO2_data.csv"
+    }
     return db_dict
 
 
@@ -37,7 +40,7 @@ def SubirArchivosABBDD():
         else:
             df = pd.read_csv(path)            
         df.columns = df.columns.str.replace(' ', '_').str.replace('[^a-zA-Z0-9_]', '')
-        subir_dataframe_sql(df, RAW, nombre_dataset)
+        subir_dataframe_sql(df, nombre_dataset, RAW)
 
 
 
