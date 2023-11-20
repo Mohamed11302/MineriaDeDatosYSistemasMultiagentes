@@ -10,6 +10,7 @@ def obtener_codigo_iso(nombre_pais,language='es'):
             language = gettext.translation('iso3166', pycountry.LOCALES_DIR, languages=[language])
             language.install()
             _ = language.gettext
+            
             for english_country in pycountry.countries:
                 nombre_pais = nombre_pais.lower()
                 german_country = _(english_country.name).lower()
@@ -26,6 +27,3 @@ def obtener_codigo_iso(nombre_pais,language='es'):
         except AttributeError:
             # Maneja el caso en el que no se encuentra el país
             return None
-        
-print(obtener_codigo_iso('EspañA'))
-print(obtener_codigo_iso('spain','en'))

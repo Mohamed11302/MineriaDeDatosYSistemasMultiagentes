@@ -6,6 +6,9 @@ import os
 import sys
 import warnings
 import pycountry
+import Aux_Traductor_Paises
+
+
 warnings.filterwarnings('ignore')
 ruta_actual = os.path.dirname(os.path.abspath(sys.argv[0]))
 directorio_superior = os.path.dirname(ruta_actual)
@@ -19,10 +22,10 @@ def limpiar_dataframe():
     dataframe.rename(columns={'País': 'Pais'}, inplace=True)
     for i in range(len(dataframe["Pais"])):
         dataframe["Pais"][i]= dataframe["Pais"][i].replace(' [+]','')
-        dataframe["Pais"][i] = re.sub(r"([^n\u0300-\u036f]|n(?!\u0303(?![\u0300-\u036f])))[\u0300-\u036f]+", r"\1", normalize( "NFD", dataframe["Pais"][i]), 0, re.I)
-        dataframe["Pais"][i] = normalize( 'NFC', dataframe["Pais"][i])
-        if 'ñ' in dataframe["Pais"][i]:
-            dataframe["Pais"][i]=dataframe["Pais"][i].replace('ñ','n')
+        if dataframe["Pais"][i]=='Chequia':
+            dataframe["Pais"][i]="CZ"
+        else:
+            dataframe["Pais"][i]=Aux_Traductor_Paises.obtener_codigo_iso(dataframe["Pais"][i])
 
     for i in dataframe:
         if i=="Pais":
@@ -33,5 +36,5 @@ def limpiar_dataframe():
                 dataframe[i][j]=dataframe[i][j].replace(',','.')
             dataframe[i] = dataframe[i].str.rstrip('%').astype(float)
 
-
+ 
     return dataframe
