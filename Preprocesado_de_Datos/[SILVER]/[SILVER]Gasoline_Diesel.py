@@ -5,6 +5,7 @@ from unicodedata import normalize
 import os
 import sys
 import warnings
+import pycountry
 warnings.filterwarnings('ignore')
 ruta_actual = os.path.dirname(os.path.abspath(sys.argv[0]))
 directorio_superior = os.path.dirname(ruta_actual)
