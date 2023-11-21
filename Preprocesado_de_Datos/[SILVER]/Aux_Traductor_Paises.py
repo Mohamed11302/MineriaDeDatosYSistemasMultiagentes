@@ -15,7 +15,7 @@ def obtener_codigo_iso(nombre_pais,language='es'):
                 nombre_pais = nombre_pais.lower()
                 german_country = _(english_country.name).lower()
                 if german_country == nombre_pais:
-                    return english_country.alpha_2
+                    return english_country.alpha_3
         except LookupError:
             # Maneja el caso en el que no se encuentra el país
             return None
@@ -23,7 +23,7 @@ def obtener_codigo_iso(nombre_pais,language='es'):
         try:
             # Busca el país por nombre en español
             pais = countries_by_name.get(nombre_pais)
-            return pais.alpha2
+            return pais.alpha3
         except AttributeError:
             # Maneja el caso en el que no se encuentra el país
             return None
