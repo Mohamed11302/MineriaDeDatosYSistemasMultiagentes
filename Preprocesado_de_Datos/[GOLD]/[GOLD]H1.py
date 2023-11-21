@@ -17,7 +17,7 @@ def prepare_df1 (dataframe1):
     
 
 def prepare_df2 (dataframe2,models):
-    dataframe2= dataframe2.drop(['Brand','PriceEuro'],axis=1)
+    dataframe2= dataframe2.drop(['Brand'],axis=1)
     for i in models:
         for j in dataframe2['Model']:
             if j in i or i in j:
