@@ -19,7 +19,7 @@ def prepare_df1 (dataframe1):
         new_name = f'CochesVendidos_{year}'
         dataframe1.rename(columns={str(year): new_name}, inplace=True)
     
-    return dataframe1
+    return dataframe1.astype(int)
     
 
 def prepare_df2 (dataframe2):
@@ -53,3 +53,4 @@ def TarjetaDeDatos():
     data_card.set_index('Country', inplace=True)
     
     return data_card
+

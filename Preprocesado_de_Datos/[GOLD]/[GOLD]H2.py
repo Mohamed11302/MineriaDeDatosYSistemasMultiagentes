@@ -18,8 +18,8 @@ def prepare_df1 (dataframe1):
     for year in range(2017, 2023):
         new_name = f'CochesVendidos_{year}'
         dataframe1.rename(columns={str(year): new_name}, inplace=True)
-    
-    return dataframe1
+        
+    return dataframe1.astype(int)
     
 
 def prepare_df2 (dataframe2):
@@ -58,7 +58,7 @@ def prepare_df2 (dataframe2):
     # Change the order of the colums for a better understnding
     column_order = sorted(dataframe2.columns, key=lambda x: int(x.split('_')[1]) if '_' in x and x.split('_')[1].isdigit() else float('inf'))
     dataframe2 = dataframe2[column_order]
-
+    
     return dataframe2
 
 
@@ -77,5 +77,3 @@ def TarjetaDeDatos():
     data_card.set_index('Country', inplace=True)
     
     return data_card
-
-TarjetaDeDatos()
