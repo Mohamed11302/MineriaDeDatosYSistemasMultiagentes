@@ -55,5 +55,3 @@ def TarjetaDeDatos():
     aggregated_data.reset_index(inplace=True)
     
     return aggregated_data
-
-TarjetaDeDatos()

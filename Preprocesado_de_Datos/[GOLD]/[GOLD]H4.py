@@ -50,7 +50,6 @@ def TarjetaDeDatos():
     dataframe2 = prepare_df2(dataframe2)
 
     data_card = pd.merge(dataframe1, dataframe2, on='Country')
-    data_card.set_index('Country', inplace=True)
+    data_card.set_index('Country')
     
     return data_card
-

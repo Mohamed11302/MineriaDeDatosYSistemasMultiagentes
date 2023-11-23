@@ -1,42 +1,55 @@
-from Preprocesado_de_Datos.Acceso_BBDD.MetodosBBDD import *
 import os
 import sys
+import numpy as np
 ruta_actual = os.path.dirname(os.path.abspath(sys.argv[0]))
 directorio_superior = os.path.dirname(ruta_actual)
 abuelo_directorio = os.path.dirname(directorio_superior)
 sys.path.append(abuelo_directorio)
-
+from Preprocesado_de_Datos.Acceso_BBDD.MetodosBBDD import *
 
 def prepare_model_per_year(model_per_year):
-    # Cogemos solo aquellos vehículos eléctricos
-    model_per_year_ev = model_per_year[model_per_year["isEv"] == 1]
-
-    # El dataset de los puntos de carga va desde 2015 hasta 2021
-    model_per_country = model_per_year_ev.groupby(
-        ['Country'])[['2017', '2018', '2019', '2020', '2021']].sum()
+    model_per_year = model_per_year.groupby(['Country', 'PowerTrain'])[['2017', '2018', '2019', '2020', '2021', '2022']].sum()
+    model_per_year = model_per_year.reset_index()
+    hibridos = [
+        "PHV",        # Vehículo eléctrico enchufable
+        "Mild HV",    # Semi-híbrido
+        "HV",         # Híbrido
+        "48V Mild HV",# Híbrido
+        "HV/PHV",
+        "HV/MHV",
+        "HV/EV/PHV",
+        "HV/EV"
+    ]
+    electricos = [
+        "EV"
+    ]
+    ev_powertrain = hibridos + electricos
+    model_per_year = model_per_year[model_per_year['PowerTrain'].isin(ev_powertrain)]
+    model_per_year['Type_Vehicle'] = model_per_year['PowerTrain'].apply(lambda x: 'Hybrid' if x in hibridos else 'Electric' if x in electricos else 'Otro')
+    model_per_year = model_per_year.groupby(['Country', 'Type_Vehicle'])[['2017', '2018', '2019', '2020', '2021', '2022']].sum()
+    
+    
     for year in range(2017, 2023):
-        new_name = f'CochesVendidos_{year}'
-        model_per_country.rename(columns={str(year): new_name}, inplace=True)
+        model_per_year[str(year)] = model_per_year[str(year)].astype(int)
 
-    model_per_country = model_per_country.astype(int)
+    model_per_year = model_per_year.reset_index()
+    model_per_year = pd.melt(model_per_year, id_vars=['Country', 'Type_Vehicle'], var_name='year', value_name='Sells')
+    model_per_year['year'] = model_per_year['year'].astype(int)
     return model_per_year
 
-
 def prepare_charging_points(charging_points):
-    charging_points = charging_points[~charging_points["year"].isin([
-                                                                    2015, 2016])]
-    grouped_region_year = charging_points.groupby(["region", "year"])[
-        ["value"]].sum()
-    region_year = grouped_region_year.unstack()
-    region_year.columns = region_year.columns.droplevel(0)
+    charging_points = charging_points[~charging_points["year"].isin([2015, 2016])]
+    charging_points = charging_points.pivot_table(index=['region', 'year'], columns='powertrain', values='value', aggfunc='sum').reset_index()
 
-    for year in range(2017, 2023):
-        new_name = f'PuntosRecarga_{year}'
-        region_year.rename(columns={year: new_name}, inplace=True)
+    charging_points = charging_points[['region', 'year', 'Publicly available fast', 'Publicly available slow']]
+    charging_points = charging_points.rename(columns={'region': 'Country', 'Publicly available fast': 'Fast Charging Point', 'Publicly available slow': 'Slow Charging Point'})
+    charging_points['Fast Charging Point'] = charging_points['Fast Charging Point'].replace([np.inf, -np.inf, np.nan], 0)
+    charging_points['Slow Charging Point'] = charging_points['Slow Charging Point'].replace([np.inf, -np.inf, np.nan], 0)
 
-    region_year.index = region_year.index.rename("Country")
+    charging_points['Fast Charging Point'] = charging_points['Fast Charging Point'].astype(int)
+    charging_points['Slow Charging Point'] = charging_points['Slow Charging Point'].astype(int)
 
-    return region_year
+    return charging_points
 
 
 def TarjetaDeDatos():
@@ -45,7 +58,7 @@ def TarjetaDeDatos():
 
     model_per_country = prepare_model_per_year(model_per_year)
     charging_region_year = prepare_charging_points(charging_points)
+    merged_df = pd.merge(model_per_country,charging_region_year, how='inner', on=['Country', 'year'])
+    return merged_df
 
-    data_card = pd.merge(model_per_country, charging_region_year, on='Country')
 
-    return data_card
