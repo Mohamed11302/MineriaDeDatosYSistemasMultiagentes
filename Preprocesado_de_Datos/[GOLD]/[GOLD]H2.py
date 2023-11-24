@@ -27,33 +27,6 @@ def prepare_df2 (dataframe2):
     # Change language name to merge both tables in a data card
     dataframe2.rename(columns={'Pais': 'Country'}, inplace=True)
     dataframe2 = dataframe2.drop(['Gasolina_2015', 'Diesel_2015','Gasolina_2016', 'Diesel_2016','Gasolina_2023', 'Diesel_2023'], axis=1)
-    traducciones = {
-        'Belgica': 'Belgium',
-        'Alemania': 'Germany',
-        'Espana': 'Spain',
-        'Reino Unido': 'UK',
-        'Francia': 'France',
-        'Italia': 'Italy',
-        'Estados Unidos': 'USA',
-        'Chequia': 'Czech Republic',
-        'Croacia': 'Croatia',
-        'Dinamarca': 'Denmark',
-        'Eslovaquia': 'Slovakia',
-        'Eslovenia': 'Slovenia',
-        'Finlandia': 'Finland',
-        'Grecia': 'Greece',
-        'Hungria': 'Hungary',
-        'Irlanda': 'Ireland',
-        'Letonia': 'Latvia',
-        'Lituania': 'Lithuania',
-        'Luxemburgo': 'Luxembourg',
-        'Paises Bajos': 'Netherlands',
-        'Polonia': 'Poland',
-        'Rumania': 'Romania',
-        'Suecia': 'Sweden'
-    }
-
-    dataframe2['Country'] = dataframe2['Country'].replace(traducciones)
 
     # Change the order of the colums for a better understnding
     column_order = sorted(dataframe2.columns, key=lambda x: int(x.split('_')[1]) if '_' in x and x.split('_')[1].isdigit() else float('inf'))
@@ -74,6 +47,5 @@ def TarjetaDeDatos():
     dataframe2 = prepare_df2(dataframe2)
 
     data_card = pd.merge(dataframe1, dataframe2, on='Country')
-    data_card.set_index('Country', inplace=True)
     
     return data_card

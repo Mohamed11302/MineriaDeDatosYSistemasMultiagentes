@@ -22,11 +22,7 @@ def limpiar_dataframe():
     dataframe.rename(columns={'País': 'Pais'}, inplace=True)
     for i in range(len(dataframe["Pais"])):
         dataframe["Pais"][i]= dataframe["Pais"][i].replace(' [+]','')
-        if dataframe["Pais"][i]=='Chequia':
-            dataframe["Pais"][i]="CZ"
-        else:
-            dataframe["Pais"][i]=Aux_Traductor_Paises.obtener_codigo_iso(dataframe["Pais"][i])
-
+        dataframe["Pais"][i]=Aux_Traductor_Paises.traducir_al_ingles(dataframe["Pais"][i])
     for i in dataframe:
         if i=="Pais":
             pass
