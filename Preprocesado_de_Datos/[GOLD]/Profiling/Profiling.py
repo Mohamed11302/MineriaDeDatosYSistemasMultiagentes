@@ -13,7 +13,7 @@ GOLD_BBDD = importlib.import_module('Preprocesado_de_Datos.[GOLD].[GOLD]BBDD')
 def RealizarProfiling():
     tarjetas_de_datos = GOLD_BBDD.Hipotesis()
     for nombre_bbdd, ruta_profiling in tarjetas_de_datos.items():   
-        print("PROFILING: " + str(nombre_bbdd)) 
+        print("\nPROFILING: " + str(nombre_bbdd)) 
         PROFILE = importlib.import_module(ruta_profiling)
         df = PROFILE.TarjetaDeDatos()
         ruta_profiling = "Preprocesado_de_Datos/[GOLD]/Profiling/" + str(nombre_bbdd)+ "_reporte.html"
