@@ -7,16 +7,7 @@ abuelo_directorio = os.path.dirname(directorio_superior)
 sys.path.append(abuelo_directorio)
 from Preprocesado_de_Datos.Acceso_BBDD.MetodosBBDD import *
 
-'''
-Importante poner lo de arriba para que podais conectaros con la base de datos
-'''
-
-def TarjetaDeDatos():
-    nombre_tabla = 'Ejemplo'
-    dataframe = obtener_dataframe_sql(nombre_tabla, SILVER)
-    #Creais la tarjeta de datos
-    return dataframe
-def SubirDataframes()->dict:
+def Hipotesis()->dict:
     ScriptsHipotesis = {
         "Hipotesis_1":'Preprocesado_de_Datos.[GOLD].[GOLD]H1',
         'Hipotesis_2':'Preprocesado_de_Datos.[GOLD].[GOLD]H2',
@@ -25,11 +16,12 @@ def SubirDataframes()->dict:
     }
     return ScriptsHipotesis
 def subir_hipotesis():
-    Dataframes = SubirDataframes()
-    for nombre_bbdd, ruta in Dataframes.items():      
+    tarjetas_de_datos = Hipotesis()
+    for nombre_bbdd, ruta in tarjetas_de_datos.items():      
         print("UPLOADING DATASET: " + str(nombre_bbdd))
-        Dataframe_Subir = importlib.import_module(ruta)
-        df = Dataframe_Subir.TarjetaDeDatos()
+        hipotesis = importlib.import_module(ruta)
+        df = hipotesis.TarjetaDeDatos()
         subir_dataframe_sql(df, nombre_bbdd, GOLD)
 
-subir_hipotesis()
+if __name__ == "__main__":
+    subir_hipotesis()
