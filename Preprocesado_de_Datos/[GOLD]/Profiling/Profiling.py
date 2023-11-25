@@ -1,4 +1,4 @@
-from pandas_profiling import ProfileReport
+from ydata_profiling import ProfileReport
 import importlib
 import os
 import sys
