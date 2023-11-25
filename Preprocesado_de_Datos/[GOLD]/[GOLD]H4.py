@@ -116,5 +116,3 @@ def TarjetaDeDatos():
     data_card.set_index('Country')
 
     return data_card
-
-TarjetaDeDatos()
