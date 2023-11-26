@@ -17,7 +17,6 @@ def RealizarProfiling():
         PROFILE = importlib.import_module(ruta_profiling)
         df = PROFILE.TarjetaDeDatos()
         ruta_profiling = "Preprocesado_de_Datos/[GOLD]/Profiling/" + str(nombre_bbdd)+ "_reporte.html"
-        print(ruta_profiling)
         profile = ProfileReport(df, title='Pandas Profiling Report', explorative=True)
         profile.to_file(ruta_profiling) 
 
