@@ -8,7 +8,7 @@ directorio_superior = os.path.dirname(ruta_actual)
 abuelo_directorio = os.path.dirname(directorio_superior)
 sys.path.append(abuelo_directorio)
 
-from Preprocesado_de_Datos.Acceso_BBDD.MetodosBBDD import *
+from Acceso_BBDD.MetodosBBDD import *
 warnings.filterwarnings('ignore')
 def DatosDataSets():
     db_dict = {
@@ -21,9 +21,6 @@ def DatosDataSets():
            "pib_per_capita":"DataSets/[RAW]pib_per_capita.csv",
            "puntos_de_carga":"DataSets/[RAW]puntos_de_carga.csv"
            }
-    db_dict = {
-         'prueba': "DataSets/[RAW]CO2_data.csv"
-    }
     return db_dict
 
 

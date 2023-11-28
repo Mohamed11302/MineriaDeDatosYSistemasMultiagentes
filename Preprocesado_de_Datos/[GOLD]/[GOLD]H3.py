@@ -5,7 +5,7 @@ ruta_actual = os.path.dirname(os.path.abspath(sys.argv[0]))
 directorio_superior = os.path.dirname(ruta_actual)
 abuelo_directorio = os.path.dirname(directorio_superior)
 sys.path.append(abuelo_directorio)
-from Preprocesado_de_Datos.Acceso_BBDD.MetodosBBDD import *
+from Acceso_BBDD.MetodosBBDD import *
 
 def prepare_model_per_year(model_per_year):
     model_per_year = model_per_year.groupby(['Country', 'PowerTrain'])[['2017', '2018', '2019', '2020', '2021', '2022']].sum()

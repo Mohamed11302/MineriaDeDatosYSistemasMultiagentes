@@ -1,6 +1,6 @@
 import pandas as pd
 from sqlalchemy import create_engine, URL
-from Preprocesado_de_Datos.Acceso_BBDD.password import *
+from Acceso_BBDD.password import *
 RAW = 'raw'
 SILVER = 'silver'
 GOLD = 'gold'
@@ -23,7 +23,7 @@ def ConectarseABBDD(local, schema_name):
         connect_args = {"ssl": {"fake_flag_to_enable_tls": True}}
         conn = create_engine(db_url, connect_args=connect_args)
     else:
-        ssl_args = {"ssl_ca": "Preprocesado_de_Datos/Acceso_BBDD/ca.pem", "ssl_verify_identity": False, "ssl_verify_cert": True}
+        ssl_args = {"ssl_ca": "Acceso_BBDD/ca.pem", "ssl_verify_identity": False, "ssl_verify_cert": True}
         conn = create_engine(db_url, connect_args=ssl_args)
     conn.connect()
     return conn
