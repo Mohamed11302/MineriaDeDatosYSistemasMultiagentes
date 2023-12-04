@@ -26,12 +26,12 @@ directorio_superior = os.path.dirname(ruta_actual)
 sys.path.append(directorio_superior)
 from Acceso_BBDD.MetodosBBDD import *
 
-''' DESCOMENTAR SI SE QUIEREN LAS IMÁGENES (AL IGUAL QUE LAS LÍNEAS EN LAS QUE SE GUARDAN LAS IMÁGENES EN SÍ)
+# DESCOMENTAR SI SE QUIEREN LAS IMÁGENES (AL IGUAL QUE LAS LÍNEAS EN LAS QUE SE GUARDAN LAS IMÁGENES EN SÍ)
 ruta_carpeta_imagenes = ruta_actual + "/Imagenes_H4/"
 if not os.path.exists(ruta_carpeta_imagenes):
     # Si no existe, crear la carpeta
     os.makedirs(ruta_carpeta_imagenes)
-'''
+
 
 def cargar_datos():
 
@@ -48,7 +48,7 @@ def analizar_correlacion(dataframe):
 
     correlation_matrix = dataframe.corr()
     sns.set(style="white")
-    plt.figure(figsize=(10, 8))
+    plt.figure(figsize=(15, 10))
     sns.heatmap(correlation_matrix, annot=True, cmap="coolwarm", linewidths=0.5)
     plt.title("Matriz de Correlación entre todas las variables iniciales")
     plt.xlabel("Variables")
@@ -88,7 +88,7 @@ def normalización_Vehiculos_Vendidos(dataframe):
     
     return df_Coches_Vendidos, datanorm_Coches_Vendidos
 
-def calcular_matriz_similitud(datanorm):
+def calcular_matriz_similitud(datanorm, nombre_grafica):
     # 7. Obtención de Componentes Principales sobre el dataframe normalizado introducido y Similarity Matrix
 
     states_datanorm = scaler.fit_transform(datanorm)
@@ -98,8 +98,9 @@ def calcular_matriz_similitud(datanorm):
     
     dist = sklearn.metrics.DistanceMetric.get_metric('euclidean')
     matsim = dist.pairwise(datanorm)
-    #ax = sns.heatmap(matsim_pib,vmin=0, vmax=1)
-    #plt.show()
+    ax = sns.heatmap(matsim,vmin=0, vmax=1)
+    plt.savefig(ruta_carpeta_imagenes + nombre_grafica + ".png")
+    plt.show()
 
     return matsim, pca_dataframe
 
@@ -265,8 +266,8 @@ if __name__ == "__main__":
     analizar_componentes_principales(dataframe_original)
     df_PIB, datanorm_PIB = normalizacion_PIB(dataframe_original)
     df_Coches_Vendidos, datanorm_Coches_Vendidos = normalización_Vehiculos_Vendidos(dataframe_original)
-    matsim_pib, PIB_pca = calcular_matriz_similitud(datanorm_PIB)
-    matsim_coches_vendidos, Coches_Vendidos_pca  = calcular_matriz_similitud(datanorm_Coches_Vendidos)
+    matsim_pib, PIB_pca = calcular_matriz_similitud(datanorm_PIB, "matriz_similitud_PIB")
+    matsim_coches_vendidos, Coches_Vendidos_pca  = calcular_matriz_similitud(datanorm_Coches_Vendidos, "matriz_similitud_Vehiculos_Vendidos")
     clustering_jerarquico(df_PIB, datanorm_PIB, matsim_pib, PIB_pca, "clustering_jerarquico_PIB")
     clustering_jerarquico(df_Coches_Vendidos, datanorm_Coches_Vendidos, matsim_coches_vendidos, Coches_Vendidos_pca, "clustering_jerarquico_Vehiculos_Vendidos")
     clustering_k_means(df_PIB, PIB_pca, "clustering_k_means_PIB")
