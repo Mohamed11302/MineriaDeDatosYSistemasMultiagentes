@@ -311,7 +311,7 @@ def intervalo_confianza_bootstrap(dataframe, columna_1, columna_2):
 
 if __name__ == "__main__":
     dataframe_original = cargar_datos()
-    '''analizar_correlacion(dataframe_original)
+    analizar_correlacion(dataframe_original)
     analizar_componentes_principales(dataframe_original)
     df_PIB, datanorm_PIB = normalizacion_PIB(dataframe_original)
     df_Coches_Vendidos, datanorm_Coches_Vendidos = normalización_Vehiculos_Vendidos(dataframe_original)
@@ -323,7 +323,6 @@ if __name__ == "__main__":
     clustering_k_means(df_Coches_Vendidos, Coches_Vendidos_pca, "clustering_k_means_Vehiculos_Vendidos")
     clustering_probabilistico(df_PIB, PIB_pca, "clustering_probabilistico_PIB") 
     clustering_probabilistico(df_Coches_Vendidos, Coches_Vendidos_pca, "clustering_probabilistico_Vehiculos_Vendidos")
-    '''
     intervalos_confianza_columna_completa(dataframe_original, "CochesVendidos_2019", "CochesVendidos_2022")
     #intervalo_confianza_bootstrap(dataframe_original, "CochesVendidos_2019", "CochesVendidos_2022")
     
