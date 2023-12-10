@@ -1,25 +1,23 @@
 
 # 1. Imports básicos
 
-import warnings
-warnings.filterwarnings("ignore")
 import os
 import sys
 import sklearn
-import matplotlib.pyplot as plt
-import numpy
+import warnings
+import numpy as np
 import seaborn as sns
-from sklearn.decomposition import PCA
+from sklearn import metrics
+import matplotlib.pyplot as plt
+from scipy import cluster, stats
 from sklearn import preprocessing
+from sklearn.cluster import KMeans
+from sklearn.decomposition import PCA
+from sklearn.mixture import GaussianMixture
+
+warnings.filterwarnings("ignore")
 min_max_scaler = preprocessing.MinMaxScaler()
 scaler = preprocessing.StandardScaler()
-from sklearn import metrics
-#from sklearn.neighbors import kneighbors_graph
-from scipy import cluster
-#from  sklearn.metrics import DistanceMetric
-from sklearn.cluster import KMeans
-from sklearn.mixture import GaussianMixture
-import pandas as pd
 
 ruta_actual = os.path.dirname(os.path.abspath(sys.argv[0]))
 directorio_superior = os.path.dirname(ruta_actual)
@@ -99,7 +97,7 @@ def calcular_matriz_similitud(datanorm, nombre_grafica):
     dist = sklearn.metrics.DistanceMetric.get_metric('euclidean')
     matsim = dist.pairwise(datanorm)
     ax = sns.heatmap(matsim,vmin=0, vmax=1)
-    plt.savefig(ruta_carpeta_imagenes + nombre_grafica + ".png")
+    #plt.savefig(ruta_carpeta_imagenes + nombre_grafica + ".png")
     plt.show()
 
     return matsim, pca_dataframe
@@ -210,7 +208,7 @@ def clustering_k_means(dataframe, pca_dataframe, nombre_grafica):
 def clustering_probabilistico(dataframe, pca_dataframe, nombre_grafica):
     # 11. Clustering Probabilístico sobre el PIB o los Vehiculos Vendidos
 
-    lowest_bic = numpy.infty
+    lowest_bic = np.infty
     bic = []
     best_cv = ''
     best_k = -1
@@ -260,6 +258,57 @@ def clustering_probabilistico(dataframe, pca_dataframe, nombre_grafica):
     print(df_aux[df_aux["group"] != min(labels)])
     '''
  
+def intervalos_confianza_columna_completa(dataframe, columna_1, columna_2):
+    # 12. Contraste de hipótesis adicional
+    #     Hipótesis : "Se vendieron más vehículos eléctricos en 2019 que en 2022"
+    #     H0: Las ventas de 2019 superan a las de 2022 por mera casualidad
+    #     H1: LAs ventas de 2019 superan a las de 2022 realmente.
+
+    datos_1 = dataframe[columna_1]
+    datos_2 = dataframe[columna_2]
+    print("\n--- CONTRASTE DE HIPÓTESIS SIN BOOTSTRAP ---\n")
+    print (f"Media de {columna_1}: {datos_1.mean():6.2f}")
+    print(f"Desviación típica de {columna_1}: {datos_1.std():.2f}\n")
+    print (f"Media de {columna_2}: {datos_2.mean():6.2f}")
+    print(f"Desviación típica de {columna_2}: {datos_2.std():.2f}\n")
+
+    print (f"Intervalo de confianza para {columna_1}: ",[datos_1.mean() - datos_1.std()*1.96/ np.sqrt(len(datos_1)), 
+                            datos_1.mean() + datos_1.std()*1.96/ np.sqrt(len(datos_1))])
+    print (f"Intervalo de confianza para {columna_2}: ",[datos_2.mean() - datos_2.std()*1.96/ np.sqrt(len(datos_2)), 
+                            datos_2.mean() + datos_2.std()*1.96/ np.sqrt(len(datos_2))],"\n")
+                            
+    print(stats.ttest_ind(datos_1, datos_2, equal_var = False), "\n\n") 
+    #Conclusión: Se rechaza H1 y se acepta H0, las ventas de 2019 superan a las de 2022 por mera casualidad.
+
+def meanBootstrap(dataframe, num_datos):
+  muestra = [0] * num_datos
+  for i in range(num_datos):
+    sample = [dataframe[j] for j in np.random.randint(len(dataframe), size=len(dataframe))]
+    muestra[i] = np.mean(sample)
+  return muestra
+
+def intervalo_confianza_bootstrap(dataframe, columna_1, columna_2):
+    
+    sample_1 = meanBootstrap(dataframe[columna_1], 200)
+    mean_1 = np.mean(sample_1)
+    se_1 = np.std(sample_1)
+
+    sample_2 = meanBootstrap(dataframe[columna_2], 200)
+    mean_2 = np.mean(sample_2)
+    se_2 = np.std(sample_2)
+
+    print("--- INTERVALOS DE CONFIANZA CON BOOTSTRAP ---\n")
+    print (f"Media de {columna_1}: {mean_1:6.2f}")
+    print(f"Desviación típica de {columna_1}: {se_1:.2f}\n")
+    print (f"Media de {columna_2}: {mean_2:6.2f}")
+    print(f"Desviación típica de {columna_2}: {se_2:.2f}\n")
+
+    print (f"Intervalo de confianza para {columna_1}: ",[mean_1 - se_1*1.96/ np.sqrt(len(sample_1)), 
+                            mean_1 + se_1*1.96/ np.sqrt(len(sample_1))])
+    print (f"Intervalo de confianza para {columna_2}: ",[mean_2 - se_1*1.96/ np.sqrt(len(sample_1)), 
+                            mean_2 + se_2*1.96/ np.sqrt(len(sample_2))],"\n")
+     
+
 if __name__ == "__main__":
     dataframe_original = cargar_datos()
     analizar_correlacion(dataframe_original)
@@ -274,5 +323,6 @@ if __name__ == "__main__":
     clustering_k_means(df_Coches_Vendidos, Coches_Vendidos_pca, "clustering_k_means_Vehiculos_Vendidos")
     clustering_probabilistico(df_PIB, PIB_pca, "clustering_probabilistico_PIB") 
     clustering_probabilistico(df_Coches_Vendidos, Coches_Vendidos_pca, "clustering_probabilistico_Vehiculos_Vendidos")
-
-
+    intervalos_confianza_columna_completa(dataframe_original, "CochesVendidos_2019", "CochesVendidos_2022")
+    #intervalo_confianza_bootstrap(dataframe_original, "CochesVendidos_2019", "CochesVendidos_2022")
+    
