@@ -4,7 +4,7 @@ ruta_actual = os.path.dirname(os.path.abspath(sys.argv[0]))
 directorio_superior = os.path.dirname(ruta_actual)
 abuelo_directorio = os.path.dirname(directorio_superior)
 sys.path.append(abuelo_directorio)
-from Preprocesado_de_Datos.Acceso_BBDD.MetodosBBDD import *
+from Acceso_BBDD.MetodosBBDD import *
 import pandas as pd
 
 

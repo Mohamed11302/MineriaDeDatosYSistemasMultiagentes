@@ -1,5 +1,3 @@
-from googletrans import Translator
-
 def traducir_al_ingles(nombre_pais):
     traducciones = {
         'Belgica': 'Belgium',
